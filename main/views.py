@@ -386,9 +386,10 @@ def view_bookmarks(request):
         return redirect('login')
     user = User.objects.get(username=request.session['username'])
     bookmarks = Bookmark.objects.filter(user=user)
+    username = request.session['username']
     #latest first
     bookmarks = bookmarks.order_by('-created_at')
-    return render(request, 'bookmarks.html', {'bookmarks': bookmarks})
+    return render(request, 'bookmarks.html', {'bookmarks': bookmarks, 'username': username})
 
 @csrf_exempt
 def remove_bookmark(request, bookmark_id):

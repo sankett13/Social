@@ -24,6 +24,9 @@
         Your Bookmarked Posts
     </h2>
 
+    <!-- CSRF Token for JavaScript -->
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
     <!-- Bookmarked Posts -->
     {% for bookmark in bookmarks %}
         <div id="bookmark-{{ bookmark.id }}" style="
@@ -95,7 +98,6 @@
     {% endfor %}
 </div>
 
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.remove-bookmark-btn').forEach(button => {
@@ -111,7 +113,13 @@
                 }
 
                 // Fetch CSRF token from the DOM
-                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+                if (!csrfTokenElement) {
+                    console.error('CSRF token element not found.');
+                    return;
+                }
+
+                const csrftoken = csrfTokenElement.value;
 
                 // Make the POST request to remove the bookmark
                 fetch(`/remove_bookmark/${bookmarkId}/`, {
