@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oauth_Verification</title>
+</head>
+<body>
+    <form action="{% url 'oauth_Verification' %}" method="post">
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp">
+        {{captchaForm.captcha}}
+        <button type="submit">Verify</button>
+    </form>
+    
+</body>
+</html>

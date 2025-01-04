@@ -1,0 +1,101 @@
+.content{
+    margin-top: 100px;
+}
+.titlebox{
+    box-shadow: 0 4px 8px rgba(59, 59, 59, 0.091);
+     height: 60px;
+     border-radius: 15px;
+  
+}
+.desbox{
+    box-shadow: 0 4px 8px rgba(59, 59, 59, 0.091);
+    border-radius: 15px;
+}
+button{
+    border: none;
+}
+.custom-btn{
+    background-color: #5046e5;
+    color: white;
+    font-size: 16px;
+    padding: 7px 27px;
+    border-radius: 20px;
+    margin-right: 18px;
+    margin-top: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+}
+.custom-btn:hover{
+    background-color: #665cf7;
+    color: white;
+}
+.custom-btn2{
+    font-size: 16px;
+    background-color: rgb(103, 103, 103);
+    color: white;
+    padding: 7px 27px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+.custom-btn2:hover{
+    background-color: #4d4d4d;
+    color: white;
+
+}
+.container {
+    margin-top: 10px;
+   
+    margin-left: auto;
+    margin-right: auto;
+    padding: 40px;
+   
+}
+
+h4 {
+    margin-bottom: 20px;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 400;
+ 
+}
+.check-label{
+    display: inline;
+}
+.titlebox,
+.desbox {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+  
+}
+
+.desbox {
+    resize: vertical;
+}
+
+.media-input {
+    margin-top: 5px;
+}
+
+.check-input {
+    margin-right: 10px;
+}
+
+
+.text-danger {
+    color: red;
+}

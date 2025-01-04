@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Trending{% endblock %}
+
+{% block content %}
+    <h2 style="margin-bottom: 20px;">Trending Posts</h2>
+    {% for post in trending_posts %}
+        <div style="margin-bottom: 20px;">
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.description }}</p>
+            {% if post.media %}
+                <img src="{{ post.media.url }}" alt="Post Media" style="max-width: 100%; height: auto;">
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
+

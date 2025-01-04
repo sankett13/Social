@@ -1,0 +1,25 @@
+{%load socialaccount%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register</h1>
+    <form method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        <br>
+        {{captchaForm.captcha}}
+        <br>
+        <button type="submit">Register</button>
+        <a href="{% provider_login_url 'google' %}?next=/oauth_Verification/"">Signup with Google</a>
+        
+
+    </form>
+    
+</body>
+</html>

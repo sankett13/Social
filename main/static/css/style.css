@@ -1,0 +1,334 @@
+    /* General Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+    }
+
+    .sidebar-footer {
+        position: absolute;
+        bottom: 10px;
+        font-size: 11px;
+    }
+
+    :root {
+        --bg-color: #ffffff;
+        --secondary-bg-color: #f8f8f8;
+        --text-color: #000000;
+        --secondary-text-color: #7b7b7b;
+        --sidebar-bg: #5046e5;
+        --button-bg: #746bf9d3;
+        --secondary-button-bg: rgb(103, 103, 103);
+        --accent-color: #e74c3c;
+        --button-text: #ffffff;
+        --button-border: #afaafd;
+        --input-border: #b7b7b7;
+    }
+
+    .darkmode {
+        --bg-color: #303030;
+        --secondary-bg-color: #181818;
+        --text-color: #ffffff;
+        --secondary-text-color: #474f51;
+        --sidebar-bg: #080808;
+        --button-bg: #272727;
+        --secondary-button-bg: rgb(103, 103, 103);
+        --accent-color: #e74c3c;
+        --button-text: #ffffff;
+        --button-border: #717171;
+        --input-border: #717171;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        /* Ensure body takes full height */
+        height: 100vh;
+        overflow: auto;
+        /* Allow content to scroll if it overflows */
+    }
+
+    /* Sidebar */
+    .sidebar {
+        background-color: var(--sidebar-bg);
+        color: white;
+        width: 18%;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        height: 100%;
+    }
+
+    .sidebar h1 {
+        margin-bottom: 35px;
+        font-size: 2em;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .sidebar li {
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        cursor: pointer;
+    }
+
+    .sidebar li i {
+        padding-right: 10px;
+    }
+
+    .create-post {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 8px 35px;
+        margin-bottom: 20px;
+        background-color: var(--button-bg);
+        border-radius: 30px;
+        font-size: 20px;
+        font-weight: 500;
+        border: 1px solid var(--button-border);
+    }
+
+    /* Main Section (content area) */
+    .main {
+        background-color: var(--secondary-bg-color);
+        margin-left: 18%;
+        /* Ensure main content is not hidden behind sidebar */
+        width: 82%;
+        overflow: auto;
+        flex-grow: 1;
+        /* Allow it to take available space */
+    }
+
+    /* Top Navbar */
+    .top-nav {
+        height: 75px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        width: 82%;
+        background-color: var(--secondary-bg-color);
+        border-bottom: 1px solid var(--input-border);
+        position: fixed;
+        z-index: 2;
+    }
+
+
+    .search-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 0px 15px;
+        border: 1px solid var(--input-border);
+        border-radius: 30px;
+        margin-left: 30px;
+        width: 40%;
+        height: 42px;
+        background-color: var(--bg-color);
+        box-shadow: 0 4px 10px rgba(59, 59, 59, 0.12);
+    }
+
+    .search-container i {
+        cursor: pointer;
+        margin-right: 13px;
+        font-size: 20px;
+        color: var(--secondary-text-color);
+    }
+
+    .search-bar {
+        border: none;
+        outline: none;
+        padding: 8px;
+        background-color: transparent;
+        font-size: 18px;
+        color: var(--text-color);
+    }
+
+    .profile-picture {
+        width: 60px;
+        /* Adjust size as needed */
+        height: 60px;
+        /* Adjust size as needed */
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 20px;
+        /* Space between image and text */
+        border: 2px solid #ccc;
+        /* Optional border */
+    }
+
+    .profile-picture img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .login-btn {
+        background-color: var(--sidebar-bg);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+        margin-right: 20px;
+        font-size: 16px;
+        border: none;
+        /* Space between login and logout buttons */
+    }
+
+    /* Logout Button Styling */
+    .logout-btn {
+        background-color: var(--accent-color);
+        /* Red for logout */
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 16px;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+        margin-right: 20px;
+        border: none;
+        /* Space between login and logout buttons */
+    }
+
+    .logout-btn:hover {
+        background-color: #c0392b;
+        /* Darker red on hover */
+    }
+    .login_end{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+    }
+    #theme-toggle{
+        height: 50px;
+        width: 50px;
+        color: #000000;
+        border-radius: 50%;
+        border: 1px solid #3a3a3a;
+        background-color: #ffffff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        margin-right: 20px;   
+    }
+    #theme-toggle span:last-child{
+        display: none;
+    }
+    .darkmode #theme-toggle span:first-child{
+        display: none;
+    }
+    .darkmode #theme-toggle span:last-child{
+        display: block;
+    }
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: var(--secondary-bg-color);
+        padding: 30px;
+        border-radius: 10px;
+        width: 300px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .modal-content h2 {
+        margin-bottom: 10px;
+    }
+
+    .modal-content input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .submit-btn {
+        background-color: var(--sidebar-bg);
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 1.5rem;
+        color: #aaa;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: black;
+    }
+
+    Style the container for suggestions
+    #suggestions-list {
+        position: absolute;
+        /* To ensure it appears below the input field */
+        background-color: #fff;
+        /* White background for suggestions */
+        border: 1px solid #ccc;
+        /* Light border */
+        width: 100%;
+        /* Full width of the input field */
+        max-height: 200px;
+        /* Limit height for overflow */
+        overflow-y: auto;
+        /* Add scroll for overflow */
+        z-index: 1000;
+        /* Ensure it appears above other elements */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Optional shadow for better visibility */
+    }
+
+    /* Style individual suggestion items */
+    .suggestion {
+        padding: 10px;
+        /* Add some padding for better spacing */
+        cursor: pointer;
+        /* Indicate clickable items */
+        border-bottom: 1px solid #eee;
+        /* Separate each suggestion */
+    }
+
+    /* Highlight on hover */
+    .suggestion:hover {
+        background-color: #f0f0f0;
+        /* Light gray hover effect */
+    }

@@ -1,0 +1,154 @@
+{% extends "base.html" %} {%load static%}
+ {% block title %}Home{% endblock %}
+ {%block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+{% endblock %}
+
+{% block content %}
+<h4>All Posts</h4>
+<div class="posts-container">
+  {% for post in posts %}
+  <div class="card">
+    <div class="card-content">
+      <div class="userprofile">
+        {%if post.media %}
+        <div class="user-info">
+          <a href="{% url 'user_profile' %}">
+            <img
+              src="../static/media/profilephoto.jpeg"
+              alt="User Profile"
+              class="user-profile"
+            />
+          </a>
+        </div>
+        {% endif %}
+        <span class="user-name">{{ post.author.username }}</span>
+      </div>
+      <h3 class="card-title">
+        <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+      </h3>
+      <p class="card-description">{{ post.description }}</p>
+      {% if post.media %}
+      <img src="{{ post.media.url }}" alt="Post Media" class="card-image" />
+      {% endif %}
+      <button class="bookmark-btn" data-post-id="{{ post.id }}">
+        <i class="fas fa-bookmark"></i>
+      </button>
+      <div class="card-actions">
+        <button class="like-button" data-post-id="{{ post.id }}">
+            <i class="fa-regular fa-thumbs-up"></i>
+          Like (<span id="likes-count-{{ post.id }}">{{ post.upvotes }}</span>)
+        </button>
+        <button class="dislike-button" data-post-id="{{ post.id }}">
+            <i class="fa-regular fa-thumbs-down"></i>
+              Dislike (<span id="dislike-count-{{ post.id }}"
+            >{{ post.downvotes }}</span
+          >)
+        </button>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>No posts available.</p>
+  {% endfor %}
+</div>
+
+<!-- JavaScript -->
+<script>
+  // Function to get CSRF token from cookies
+  function getCookie(name) {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(name + "=")) {
+        return cookie.substring(name.length + 1);
+      }
+    }
+    return null;
+  }
+
+  // Like button functionality
+  document.querySelectorAll(".like-button").forEach((button) => {
+    button.addEventListener("click", function () {
+      const postId = this.getAttribute("data-post-id");
+      const likeCountSpan = document.getElementById(`likes-count-${postId}`);
+
+      fetch(`/like_post/${postId}/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"), // Include CSRF token
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            likeCountSpan.textContent = data.likes; // Update like count
+            const dislikeCountSpan = document.getElementById(
+              `dislike-count-${postId}`
+            );
+            dislikeCountSpan.textContent = data.dislikes; // Update dislike count
+          } else {
+            alert(data.error || "Failed to like the post.");
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    });
+  });
+
+  // Dislike button functionality
+  document.querySelectorAll(".dislike-button").forEach((button) => {
+    button.addEventListener("click", function () {
+      const postId = this.getAttribute("data-post-id");
+      const dislikeCountSpan = document.getElementById(
+        `dislike-count-${postId}`
+      );
+
+      fetch(`/dislike_post/${postId}/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"), // Include CSRF token
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            dislikeCountSpan.textContent = data.dislikes; // Update dislike count
+            const likeCountSpan = document.getElementById(
+              `likes-count-${postId}`
+            );
+            likeCountSpan.textContent = data.likes; // Update like count
+          } else {
+            alert(data.error || "Failed to dislike the post.");
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    });
+  });
+
+  document.querySelectorAll(".bookmark-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const postId = this.getAttribute("data-post-id");
+      console.log(postId);
+
+      fetch(`/bookmarks_post/${postId}/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"), // Include CSRF token
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            alert(data.message);
+          } else {
+            alert(data.error || "Failed to bookmark the post.");
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    });
+  });
+</script>
+{% endblock %}

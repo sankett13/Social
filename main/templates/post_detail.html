@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <!-- Post Detail Container -->
+    <div style="
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+    ">
+        <!-- Post Title -->
+        <h1 style="margin-bottom: 10px;">{{ post.title }}</h1>
+
+        <!-- Post Metadata -->
+        <p style="color: gray; font-size: 14px; margin-bottom: 20px;">
+            By <strong>{{ post.author }}</strong> | Posted on {{ post.created_at|date:"F j, Y" }}
+        </p>
+
+        <!-- Post Media (Image) -->
+        {% if post.media and post.media.name %}
+            <div style="margin-bottom: 20px; text-align: center;">
+                <img src="{{ post.media.url }}" alt="Post Media" style="
+                    max-width: 100px;
+                    height: 100px;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                ">
+            </div>
+        {% endif %}
+
+        <!-- Post Description -->
+        <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+            {{ post.description }}
+        </p>
+
+        <!-- Upvotes and Downvotes -->
+        <div style="
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 20px;
+        ">
+            <div id="likes-count-{{ post.id }}" style="font-size: 16px;">
+                👍 Upvotes: <strong>{{ post.upvotes }}</strong>
+            </div>
+            <div id="dislikes-count-{{ post.id }}" style="font-size: 16px;">
+                👎 Downvotes: <strong>{{ post.downvotes }}</strong>
+            </div>
+        </div>
+
+        <!-- Like and Dislike Buttons -->
+        <div style="margin-top: 20px; display: flex; gap: 10px;">
+            <button class="like-btn" data-post-id="{{ post.id }}" style="
+                background-color: #4caf50;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 14px;
+            ">
+                👍 Like
+            </button>
+            <button class="dislike-btn" data-post-id="{{ post.id }}" style="
+                background-color: #f44336;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 14px;
+            ">
+                👎 Dislike
+            </button>
+        </div>
+    </div>
+
+   <!-- Comments Section -->
+<div style="background-color: #f9f9f9; padding: 20px; margin-top: 40px; border-radius: 10px;">
+    <h3>Comments</h3>
+
+    <!-- Existing comments container -->
+    <div class="comments-container">
+        {% for comment in post.comments.all %}
+            <div style="margin-bottom: 20px; padding: 10px; background-color: white; border-radius: 5px;">
+                <strong>{{ comment.author.username }}</strong>
+                <p style="font-size: 14px; color: gray;">{{ comment.created_at|date:"F j, Y" }}</p>
+                <p>{{ comment.content }}</p>
+                <div id="comment-{{ comment.id }}">
+
+                    <!-- agree and disagree Buttons -->
+                    <div style="margin-top: 10px; display: flex; gap: 10px;">
+                        <p id ="agree-count-{{ comment.id }}">Agree: {{ comment.agreeCount }}</p>
+                        <button class="agree-btn" data-comment-id="{{ comment.id }}" style="
+                            background-color: #4caf50;
+                            color: white;
+                            border: none;
+                            padding: 5px 10px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            font-size: 14px;
+                        ">
+                            🔼 Agree
+                        </button>
+                        <p id="disagree-count-{{ comment.id }}">Disagree: {{ comment.disagreeCount }}</p>
+                        <button class="disagree-btn" data-comment-id="{{ comment.id }}" style="
+                            background-color: #f44336;
+                            color: white;
+                            border: none;
+                            padding: 5px 10px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            font-size: 14px;
+                        ">
+                            🔽 Disagree
+                        </button>
+                    </div>
+
+                </div>
+                
+
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+    </div>
+
+    <!-- Comment Form -->
+    <h4>Add a comment</h4>
+    <form method="POST" class="comment-form" data-post-id="{{ post.id }}">
+        {% csrf_token %}
+        <textarea name="comment" rows="4" style="width: 100%; padding: 10px; border-radius: 5px;" placeholder="Write your comment..." required></textarea>
+        <button type="submit" style="
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        ">
+            Post Comment
+        </button>
+    </form>
+</div>
+
+    <script>
+// AJAX for Like Button
+document.querySelector('.like-btn').addEventListener('click', function () {
+    const postId = this.getAttribute('data-post-id');
+    const likeCountSpan = document.getElementById(`likes-count-${postId}`);
+    const dislikeCountSpan = document.getElementById(`dislikes-count-${postId}`);
+
+    fetch(`/like_post/${postId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',  // CSRF token for POST request
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            likeCountSpan.innerHTML = `👍 Upvotes: <strong>${data.likes}</strong>`;
+            dislikeCountSpan.innerHTML = `👎 Downvotes: <strong>${data.dislikes}</strong>`;
+        } else {
+            alert(data.error || 'Failed to like the post.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+// AJAX for Dislike Button
+document.querySelector('.dislike-btn').addEventListener('click', function () {
+    const postId = this.getAttribute('data-post-id');
+    const likeCountSpan = document.getElementById(`likes-count-${postId}`);
+    const dislikeCountSpan = document.getElementById(`dislikes-count-${postId}`);
+
+    fetch(`/dislike_post/${postId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',  // CSRF token for POST request
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            likeCountSpan.innerHTML = `👍 Upvotes: <strong>${data.likes}</strong>`;
+            dislikeCountSpan.innerHTML = `👎 Downvotes: <strong>${data.dislikes}</strong>`;
+        } else {
+            alert(data.error || 'Failed to dislike the post.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+
+//AJAX for Comment Form
+document.querySelector('.comment-form').addEventListener('submit', function (event) {
+    event.preventDefault();  // Prevent default form submission
+
+    const postId = this.getAttribute('data-post-id'); // Post ID from form attribute
+    const commentInput = document.querySelector('textarea[name="comment"]');
+    const comment = commentInput.value.trim(); // Get comment text
+
+    if (comment) {
+        fetch(`/add_comment/${postId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',  // Include CSRF token for Django
+            },
+            body: JSON.stringify({ comment: comment }), // Send JSON data
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Clear the comment input field
+                commentInput.value = '';
+
+                // Create a new comment element
+                const newComment = `
+                    <div style="margin-bottom: 20px; padding: 10px; background-color: white; border-radius: 5px;">
+                        <strong>${data.comment.author}</strong>
+                        <p style="font-size: 14px; color: gray;">${data.comment.created_at}</p>
+                        <p>${data.comment.content}</p>
+                        <div style="margin-top: 10px; display: flex; gap: 10px;">
+                            
+                        </div>
+                    </div>
+                `;
+
+                // Append the new comment at the top of the comments section
+                const commentsContainer = document.querySelector('.comments-container');
+                commentsContainer.insertAdjacentHTML('beforeend', newComment);
+            } else {
+                alert(data.error || 'Failed to add comment.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    } else {
+        alert('Comment cannot be empty.');
+    }
+});
+
+
+document.querySelectorAll('.agree-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        const commentId = this.getAttribute('data-comment-id');
+        const agreeCountSpan = document.getElementById(`agree-count-${commentId}`);
+    
+
+        fetch(`/agree_comment/${commentId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',  // CSRF token for POST request
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                agreeCountSpan.innerHTML = `Agree: <strong>${data.agree}</strong>`;
+            } else {
+                alert(data.error || 'Failed to agree to the comment.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+
+document.querySelectorAll('.disagree-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        const commentId = this.getAttribute('data-comment-id');
+        const disagreeCountSpan = document.getElementById(`disagree-count-${commentId}`);
+
+        fetch(`/disagree_comment/${commentId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',  // CSRF token for POST request
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                disagreeCountSpan.innerHTML = `Disagree: <strong>${data.disagree}</strong>`;
+            } else {
+                alert(data.error || 'Failed to disagree to the comment.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+        
+    </script>
+{% endblock %}
