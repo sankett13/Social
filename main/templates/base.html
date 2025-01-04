@@ -130,12 +130,13 @@
                   Logout
                 </button>
               </form>
+              <a href="{% url 'user_profile' %}" class="profile-link">
+                <div class="profile-picture">
+                  <img src="../static/media/profilephoto.jpeg" alt="User Profile" />
+                </div>
+              </a>
               {% endif %}
-          <a href="{% url 'user_profile' %}" class="profile-link">
-            <div class="profile-picture">
-              <img src="../static/media/profilephoto.jpeg" alt="User Profile" />
-            </div>
-          </a>
+          
         </div>
       </div>
 
