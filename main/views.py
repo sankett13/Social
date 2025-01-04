@@ -209,7 +209,7 @@ def add_post(request):
         post.save()
         return redirect('index')  
 
-    return render(request, 'addpost.html')
+    return render(request, 'addpost.html', {'username': request.session['username']})
 
 @csrf_exempt
 def like_post(request, post_id):
