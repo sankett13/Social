@@ -405,4 +405,4 @@ def user_profile(request):
     joined_at = user.joined_at.strftime('%B %d, %Y')
     print(joined_at)
     user_posts = Post.objects.filter(author=user)
-    return render(request, 'user_profile.html', {'user': user, 'joined_at': joined_at, 'user_posts': user_posts})
+    return render(request, 'user_profile.html', {'user': user, 'joined_at': joined_at, 'user_posts': user_posts, 'username': request.session['username']})
