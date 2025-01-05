@@ -70,6 +70,18 @@ class Comment(models.Model):
     def __str__(self):
         return f"Comment by {self.author.username} on {self.post.title}"
     
+class CommentReaction(models.Model):
+    REACTION_CHOICES = [
+        ('upvote', 'Upvote'),
+        ('downvote', 'Downvote'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    reaction_type = models.CharField(max_length=8, choices=PostReaction.REACTION_CHOICES)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ('user', 'comment')  # Ensure a user reacts to a comment only once
 
 
 class Bookmark(models.Model):

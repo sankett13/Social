@@ -28,6 +28,7 @@
         <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
       </h3>
       <p class="card-description">{{ post.description }}</p>
+      <p>{{post.sensitive_content}}</p>
       {% if post.media %}
       <img src="{{ post.media.url }}" alt="Post Media" class="card-image" />
       {% endif %}
