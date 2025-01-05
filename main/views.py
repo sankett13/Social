@@ -287,8 +287,10 @@ def post_detail(request, post_id):
     if request.session.get('username'): 
         post = Post.objects.get(id=post_id)
         comments = Comment.objects.filter(post=post).order_by('-created_at')
+        username = request.session['username']
+        print(username)
         
-        return render(request, 'post_detail.html', {'post': post, 'username':request.session['username']})
+        return render(request, 'post_detail.html', {'post': post,'username': username})
     else:
         return redirect('login')
 

@@ -11,17 +11,15 @@
   <div class="card">
     <div class="card-content">
       <div class="userprofile">
-        {%if post.media %}
         <div class="user-info">
           <a href="{% url 'user_profile' %}">
             <img
-              src="../static/media/profilephoto.jpeg"
+              src="../static/media/allUser.svg"
               alt="User Profile"
               class="user-profile"
             />
           </a>
         </div>
-        {% endif %}
         <span class="user-name">{{ post.author.username }}</span>
       </div>
       <h3 class="card-title">
