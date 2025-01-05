@@ -8,7 +8,7 @@ from .forms import SimpleCaptchaForm
 from django.contrib.auth.decorators import login_required
 from allauth.socialaccount.models import SocialAccount
 import random, string
-from .models import User,Post,PostReaction,Comment,Bookmark
+from .models import User,Post,PostReaction,Comment,Bookmark,CommentReaction
 from django.contrib.auth.hashers import make_password, check_password
 import hashlib,json 
 from django.db import IntegrityError, transaction
@@ -189,6 +189,8 @@ def login(request):
 
 
 def add_post(request):
+    if not request.session.get('username'):
+        return redirect('login')
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
@@ -285,8 +287,10 @@ def post_detail(request, post_id):
     if request.session.get('username'): 
         post = Post.objects.get(id=post_id)
         comments = Comment.objects.filter(post=post).order_by('-created_at')
+        username = request.session['username']
+        print(username)
         
-        return render(request, 'post_detail.html', {'post': post})
+        return render(request, 'post_detail.html', {'post': post,'username': username})
     else:
         return redirect('login')
 
@@ -310,7 +314,7 @@ def trending(request):
     if request.session.get('username'): 
         trending_posts = Post.objects.order_by('-upvotes')[:1]
 
-        return render(request, 'index.html', {'posts': trending_posts})
+        return render(request, 'index.html', {'posts': trending_posts, 'username': request.session['username']})
     else:
         return redirect('login')
 
@@ -357,17 +361,51 @@ def add_comment(request, post_id):
 
 
 def agree_comment(request, comment_id):
-    print(comment_id)
+    # print(comment_id)
+    # comment = Comment.objects.get(id=comment_id)
+    # comment.agreeCount += 1
+    # comment.save()
+    # return JsonResponse({'success': True, 'agree': comment.agreeCount})
+
     comment = Comment.objects.get(id=comment_id)
-    comment.agreeCount += 1
-    comment.save()
-    return JsonResponse({'success': True, 'agree': comment.agreeCount})
+    user = User.objects.get(username=request.session['username'])
+    if CommentReaction.objects.filter(user=user, comment=comment).exists():
+        if CommentReaction.objects.get(user=user, comment=comment).reaction_type == 'upvote':
+            return JsonResponse({'success': False, 'error': 'You have already reacted to this comment'})
+        
+        if CommentReaction.objects.get(user=user, comment=comment).reaction_type == 'downvote':
+            comment.disagreeCount -= 1
+            comment.agreeCount += 1
+            comment.save()
+            CommentReaction.objects.filter(user=user, comment=comment).update(reaction_type='upvote')
+    else:
+        comment.agreeCount += 1
+        comment.save()
+        CommentReaction.objects.create(user=user, comment=comment, reaction_type='upvote')
+    return JsonResponse({'success': True, 'agree': comment.agreeCount, 'disagree': comment.disagreeCount})
     
 def disagree_comment(request, comment_id):
+    # comment = Comment.objects.get(id=comment_id)
+    # comment.disagreeCount += 1
+    # comment.save()
+    # return JsonResponse({'success': True, 'disagree': comment.disagreeCount})
+
     comment = Comment.objects.get(id=comment_id)
-    comment.disagreeCount += 1
-    comment.save()
-    return JsonResponse({'success': True, 'disagree': comment.disagreeCount})
+    user = User.objects.get(username=request.session['username'])
+    if CommentReaction.objects.filter(user=user, comment=comment).exists():
+        if CommentReaction.objects.get(user=user, comment=comment).reaction_type == 'downvote':
+            return JsonResponse({'success': False, 'error': 'You have already reacted to this comment'})
+        
+        if CommentReaction.objects.get(user=user, comment=comment).reaction_type == 'upvote':
+            comment.agreeCount -= 1
+            comment.disagreeCount += 1
+            comment.save()
+            CommentReaction.objects.filter(user=user, comment=comment).update(reaction_type='downvote')
+    else:
+        comment.disagreeCount += 1
+        comment.save()
+        CommentReaction.objects.create(user=user, comment=comment, reaction_type='downvote')
+    return JsonResponse({'success': True, 'agree': comment.agreeCount, 'disagree': comment.disagreeCount})
 
 @csrf_exempt
 def bookmark_post(request, post_id):

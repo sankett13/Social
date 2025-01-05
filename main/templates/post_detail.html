@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
@@ -256,6 +255,7 @@ document.querySelectorAll('.agree-btn').forEach(button => {
     button.addEventListener('click', function () {
         const commentId = this.getAttribute('data-comment-id');
         const agreeCountSpan = document.getElementById(`agree-count-${commentId}`);
+        const disagreeCountSpan = document.getElementById(`disagree-count-${commentId}`);
     
 
         fetch(`/agree_comment/${commentId}/`, {
@@ -269,6 +269,7 @@ document.querySelectorAll('.agree-btn').forEach(button => {
         .then(data => {
             if (data.success) {
                 agreeCountSpan.innerHTML = `Agree: <strong>${data.agree}</strong>`;
+                disagreeCountSpan.innerHTML = `Disagree: <strong>${data.disagree}</strong>`;
             } else {
                 alert(data.error || 'Failed to agree to the comment.');
             }
@@ -281,6 +282,7 @@ document.querySelectorAll('.disagree-btn').forEach(button => {
     button.addEventListener('click', function () {
         const commentId = this.getAttribute('data-comment-id');
         const disagreeCountSpan = document.getElementById(`disagree-count-${commentId}`);
+        const agreeCountSpan = document.getElementById(`agree-count-${commentId}`);
 
         fetch(`/disagree_comment/${commentId}/`, {
             method: 'POST',
@@ -292,7 +294,9 @@ document.querySelectorAll('.disagree-btn').forEach(button => {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                agreeCountSpan.innerHTML = `Agree: <strong>${data.agree}</strong>`;
                 disagreeCountSpan.innerHTML = `Disagree: <strong>${data.disagree}</strong>`;
+
             } else {
                 alert(data.error || 'Failed to disagree to the comment.');
             }
