@@ -1,98 +1,32 @@
 {% extends "base.html" %}
-
+{%load static%}
 {% block title %}Bookmarks{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/bookmarks.css' %}">
+{% endblock %}
 
 {% block content %}
-<div style="
-    background-color: #f9f9f9;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-width: 900px;
-    margin: 30px auto;
-">
-    <!-- Page Title -->
-    <h2 style="
-        font-size: 28px;
-        font-weight: bold;
-        color: #333;
-        text-align: center;
-        margin-bottom: 30px;
-        border-bottom: 2px solid #4CAF50;
-        padding-bottom: 10px;
-    ">
-        Your Bookmarked Posts
-    </h2>
 
-    <!-- CSRF Token for JavaScript -->
+    <h4 class="page-title">Your Bookmarked Posts</h4>
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-
-    <!-- Bookmarked Posts -->
+    <div class="bookmark-container">
     {% for bookmark in bookmarks %}
-        <div id="bookmark-{{ bookmark.id }}" style="
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        ">
-            <!-- Post Title -->
-            <a href="{% url 'post_detail' bookmark.post.id %}" style="text-decoration: none; color: inherit;">
-                <h3 style="
-                    font-size: 20px;
-                    color: #4CAF50;
-                    margin-bottom: 10px;
-                ">
-                    {{ bookmark.post.title }}
-                </h3>
+        <div id="bookmark-{{ bookmark.id }}" class="bookmark-card">
+            <a href="{% url 'post_detail' bookmark.post.id %}" class="bookmark-link">
+                <h4 class="bookmark-title">{{ bookmark.post.title }}</h4>
             </a>
-
-            <!-- Post Description -->
-            <p style="
-                font-size: 16px;
-                color: #555;
-                line-height: 1.6;
-                margin-bottom: 15px;
-            ">
-                {{ bookmark.post.description }}
-            </p>
-
-            <!-- Post Media -->
+            <!-- <p class="bookmark-description">{{ bookmark.post.description }}</p> -->
             {% if bookmark.post.media %}
-                <div style="
-                    text-align: center;
-                    margin-top: 10px;
-                ">
-                    <img src="{{ bookmark.post.media.url }}" alt="Post Media" style="
-                        max-width: 100px;
-                        height: 100px;
-                        border-radius: 10px;
-                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                    ">
+                <div class="bookmark-media">
+                    <img src="{{ bookmark.post.media.url }}" alt="Post Media" class="bookmark-image">
                 </div>
             {% endif %}
-
-            <!-- Remove Bookmark Button -->
-            <button class="remove-bookmark-btn" data-bookmark-id="{{ bookmark.id }}" style="
-                margin-top: 15px;
-                padding: 10px 20px;
-                background-color: #f44336;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.3s;
-            " onmouseover="this.style.backgroundColor='#d32f2f';" onmouseout="this.style.backgroundColor='#f44336';">
+            <button class="remove-bookmark-btn" data-bookmark-id="{{ bookmark.id }}">
                 Remove Bookmark
             </button>
         </div>
     {% empty %}
-        <p style="
-            text-align: center;
-            font-size: 18px;
-            color: #888;
-            margin-top: 20px;
-        ">
+        <p class="no-bookmarks-message">
             No bookmarks found. Start bookmarking posts you like!
         </p>
     {% endfor %}
@@ -103,25 +37,10 @@
         document.querySelectorAll('.remove-bookmark-btn').forEach(button => {
             button.addEventListener('click', function () {
                 const bookmarkId = this.getAttribute('data-bookmark-id');
-                console.log('Removing bookmark with ID:', bookmarkId);
                 const bookmarkElement = document.getElementById(`bookmark-${bookmarkId}`);
-
-                // Debugging: Log to verify the element exists
-                if (!bookmarkElement) {
-                    console.error(`Element with ID bookmark-${bookmarkId} not found.`);
-                    return;
-                }
-
-                // Fetch CSRF token from the DOM
                 const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
-                if (!csrfTokenElement) {
-                    console.error('CSRF token element not found.');
-                    return;
-                }
+                const csrftoken = csrfTokenElement ? csrfTokenElement.value : '';
 
-                const csrftoken = csrfTokenElement.value;
-
-                // Make the POST request to remove the bookmark
                 fetch(`/remove_bookmark/${bookmarkId}/`, {
                     method: 'POST',
                     headers: {
@@ -132,21 +51,16 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Remove the bookmark from the DOM
                             bookmarkElement.remove();
-                            console.log('Bookmark removed successfully');
                         } else {
-                            console.error('Error removing bookmark:', data.message);
                             alert('Failed to remove bookmark. Please try again.');
                         }
                     })
                     .catch(error => {
-                        console.error('Error removing bookmark:', error);
                         alert('An error occurred. Please try again.');
                     });
             });
         });
     });
 </script>
-
 {% endblock %}
