@@ -1,0 +1,82 @@
+/* Container styling */
+.content{
+    margin-top: 100px;
+}
+.bookmark-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px 55px;
+}
+/* Page title styling */
+.page-title {
+    margin: 20px 55px;
+    color: var(--text-color);
+    font-weight: 400;
+    padding-bottom: 10px;
+}
+
+/* Bookmark card styling */
+.bookmark-card {
+    
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Bookmark link styling */
+.bookmark-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Bookmark title styling */
+.bookmark-title {
+    margin-bottom: 10px;
+}
+
+/* Bookmark description styling */
+.bookmark-description {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Bookmark media styling */
+.bookmark-media {
+    margin-top: 10px;
+}
+
+.bookmark-image {
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Remove bookmark button styling */
+.remove-bookmark-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #348eae;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.remove-bookmark-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* No bookmarks message styling */
+.no-bookmarks-message {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    margin-top: 20px;
+}
