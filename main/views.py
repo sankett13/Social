@@ -438,6 +438,7 @@ def remove_bookmark(request, bookmark_id):
 def user_profile(request):
     # if not request.sesssion.get('username'):
     #     return redirect('login')
+
     user = User.objects.get(username=request.session['username'])
     #trim only date and time
     joined_at = user.joined_at.strftime('%B %d, %Y')
