@@ -25,5 +25,6 @@ urlpatterns = [
     path('remove_bookmark/<int:bookmark_id>/', views.remove_bookmark, name='remove_bookmark'),
     # path('user_profile/<int:user_id>/', views.user_profile, name='user_profile'),
     path('user_profile/', views.user_profile, name='user_profile'),
+    path('delete_post/<int:post_id>/', views.delete_post, name='delete_post'),
 
 ]
