@@ -1,128 +1,80 @@
 {% extends "base.html" %}
 {% block title %}{{ post.title }}{% endblock %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/post_details.css' %}">
+{% endblock %}
 
 {% block content %}
     <!-- Post Detail Container -->
-    <div style="
-        background-color: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        margin: 20px auto;
-        max-width: 800px;
-        max-height: 90vh;
-        overflow-y: auto;
-    ">
+    <div class="post-detail-container">
         <!-- Post Title -->
-        <h1 style="margin-bottom: 10px;">{{ post.title }}</h1>
+        <h1 class="post-title">{{ post.title }}</h1>
 
         <!-- Post Metadata -->
-        <p style="color: gray; font-size: 14px; margin-bottom: 20px;">
+        <p class="post-metadata">
             By <strong>{{ post.author }}</strong> | Posted on {{ post.created_at|date:"F j, Y" }}
         </p>
 
         <!-- Post Media (Image) -->
         {% if post.media and post.media.name %}
-            <div style="margin-bottom: 20px; text-align: center;">
-                <img src="{{ post.media.url }}" alt="Post Media" style="
-                    max-width: 100px;
-                    height: 100px;
-                    border-radius: 10px;
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                ">
+            <div class="post-media">
+                <img src="{{ post.media.url }}" alt="Post Media">
             </div>
         {% endif %}
 
         <!-- Post Description -->
-        <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+        <p class="post-description">
             {{ post.description }}
         </p>
 
         <!-- Upvotes and Downvotes -->
-        <div style="
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-top: 20px;
-        ">
-            <div id="likes-count-{{ post.id }}" style="font-size: 16px;">
+        <div class="votes-container">
+            <div id="likes-count-{{ post.id }}" class="votes-count">
                 👍 Upvotes: <strong>{{ post.upvotes }}</strong>
             </div>
-            <div id="dislikes-count-{{ post.id }}" style="font-size: 16px;">
+            <div id="dislikes-count-{{ post.id }}" class="votes-count">
                 👎 Downvotes: <strong>{{ post.downvotes }}</strong>
             </div>
         </div>
 
         <!-- Like and Dislike Buttons -->
-        <div style="margin-top: 20px; display: flex; gap: 10px;">
-            <button class="like-btn" data-post-id="{{ post.id }}" style="
-                background-color: #4caf50;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 14px;
-            ">
+        <div class="votes-buttons">
+            <button class="like-btn" data-post-id="{{ post.id }}">
                 👍 Like
             </button>
-            <button class="dislike-btn" data-post-id="{{ post.id }}" style="
-                background-color: #f44336;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 14px;
-            ">
+            <button class="dislike-btn" data-post-id="{{ post.id }}">
                 👎 Dislike
             </button>
         </div>
     </div>
 
    <!-- Comments Section -->
-<div style="background-color: #f9f9f9; padding: 20px; margin-top: 40px; border-radius: 10px;">
+<div class="comments-section">
     <h3>Comments</h3>
 
     <!-- Existing comments container -->
     <div class="comments-container">
         {% for comment in post.comments.all %}
-            <div style="margin-bottom: 20px; padding: 10px; background-color: white; border-radius: 5px;">
+            <div class="comment">
                 <strong>{{ comment.author.username }}</strong>
-                <p style="font-size: 14px; color: gray;">{{ comment.created_at|date:"F j, Y" }}</p>
+                <p class="comment-date">{{ comment.created_at|date:"F j, Y" }}</p>
                 <p>{{ comment.content }}</p>
                 <div id="comment-{{ comment.id }}">
 
                     <!-- agree and disagree Buttons -->
-                    <div style="margin-top: 10px; display: flex; gap: 10px;">
-                        <p id ="agree-count-{{ comment.id }}">Agree: {{ comment.agreeCount }}</p>
-                        <button class="agree-btn" data-comment-id="{{ comment.id }}" style="
-                            background-color: #4caf50;
-                            color: white;
-                            border: none;
-                            padding: 5px 10px;
-                            border-radius: 5px;
-                            cursor: pointer;
-                            font-size: 14px;
-                        ">
+                    <div class="comment-votes">
+                        <p id="agree-count-{{ comment.id }}">Agree: {{ comment.agreeCount }}</p>
+                        <button class="agree-btn" data-comment-id="{{ comment.id }}">
                             🔼 Agree
                         </button>
                         <p id="disagree-count-{{ comment.id }}">Disagree: {{ comment.disagreeCount }}</p>
-                        <button class="disagree-btn" data-comment-id="{{ comment.id }}" style="
-                            background-color: #f44336;
-                            color: white;
-                            border: none;
-                            padding: 5px 10px;
-                            border-radius: 5px;
-                            cursor: pointer;
-                            font-size: 14px;
-                        ">
+                        <button class="disagree-btn" data-comment-id="{{ comment.id }}">
                             🔽 Disagree
                         </button>
                     </div>
 
                 </div>
-                
 
             </div>
         {% empty %}
@@ -134,17 +86,8 @@
     <h4>Add a comment</h4>
     <form method="POST" class="comment-form" data-post-id="{{ post.id }}">
         {% csrf_token %}
-        <textarea name="comment" rows="4" style="width: 100%; padding: 10px; border-radius: 5px;" placeholder="Write your comment..." required></textarea>
-        <button type="submit" style="
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 10px;
-        ">
+        <textarea name="comment" rows="4" class="comment-textarea" placeholder="Write your comment..." required></textarea>
+        <button type="submit" class="comment-submit">
             Post Comment
         </button>
     </form>
@@ -227,13 +170,10 @@ document.querySelector('.comment-form').addEventListener('submit', function (eve
 
                 // Create a new comment element
                 const newComment = `
-                    <div style="margin-bottom: 20px; padding: 10px; background-color: white; border-radius: 5px;">
+                    <div class="comment">
                         <strong>${data.comment.author}</strong>
-                        <p style="font-size: 14px; color: gray;">${data.comment.created_at}</p>
+                        <p class="comment-date">${data.comment.created_at}</p>
                         <p>${data.comment.content}</p>
-                        <div style="margin-top: 10px; display: flex; gap: 10px;">
-                            
-                        </div>
                     </div>
                 `;
 
