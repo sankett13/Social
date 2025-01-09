@@ -6,13 +6,13 @@
 {% endblock %}
 {% block content %}
 <div class="profile-container">
-    <img src="../static/media/UserBanner.svg" alt="Profile Banner" class="banner">
+    <img src="{% static 'media/UserBanner.svg' %}" alt="Profile Banner" class="banner">
    
             
     
         <div class="profile-info">
       
-                <img src="../static/media/profilephoto.svg" alt="User Avatar" class="avatar">
+                <img src="{% static 'media/profilephoto.svg' %}" alt="User Avatar" class="avatar">
           
             <div class="details">
                 <h2>{{ user.username }}</h2>
@@ -28,7 +28,7 @@
                     <li id="post-{{ post.id }}">
                         <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
                         <p>Posted on: {{ post.created_at|date:"F d, Y H:i" }}</p>
-                        <button type="submit" class="delete-button" onclick="handleDeletePost({{ post.id }})">Delete post</button>
+                        <button type="submit" class="delete-button" onclick="handleDeletePost('{{ post.id }}')">Delete post</button>
                     </li>
                     
                 {% endfor %}

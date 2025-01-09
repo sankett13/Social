@@ -49,7 +49,8 @@ def index(request):
 
         posts = Post.objects.all().order_by('-created_at')
     else:
-        posts = Post.objects.values('id','title', 'description', 'upvotes', 'downvotes')
+        posts = Post.objects.values('id', 'title', 'description', 'upvotes', 'downvotes', 'created_at').order_by('-created_at')
+        
 
     return render(request, 'index.html', {'posts': posts, 'username': username})
 
@@ -436,16 +437,16 @@ def remove_bookmark(request, bookmark_id):
     bookmark.delete()
     return JsonResponse({'success': True, 'message': 'Bookmark removed successfully'})
 
-def user_profile(request):
+def user_profile(request, username):
     # if not request.sesssion.get('username'):
     #     return redirect('login')
-
-    user = User.objects.get(username=request.session['username'])
-    #trim only date and time
+    # print(username)
+    user = User.objects.filter(username=username).first()
+    #trim only date and tim
     joined_at = user.joined_at.strftime('%B %d, %Y')
     print(joined_at)
     user_posts = Post.objects.filter(author=user)
-    return render(request, 'user_profile.html', {'user': user, 'joined_at': joined_at, 'user_posts': user_posts, 'username': request.session['username']})
+    return render(request, 'user_profile.html', {'user': user, 'joined_at': joined_at, 'user_posts': user_posts, 'username': username})
 
 def delete_post(request, post_id):
     if not request.session.get('username'):
