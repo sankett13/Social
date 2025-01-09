@@ -28,7 +28,7 @@
         
 
       <h3 class="card-title">
-        <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+        <a href="{% url 'post_detail' post.id %}" style="text-decoration: none; color: black;">{{ post.title }}</a>
       </h3>
       <p class="card-description">{{ post.description }}</p>
       <p>{{post.sensitive_content}}</p>
