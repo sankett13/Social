@@ -4,13 +4,13 @@
 
 {% block content %}
     <h2 style="margin-bottom: 20px;">Trending Posts</h2>
-    {% for post in trending_posts %}
-        <div style="margin-bottom: 20px;">
-            <h3>{{ post.title }}</h3>
+    {% for post in posts %}
+        <div>
+            <h3><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h3>
             <p>{{ post.description }}</p>
-            {% if post.media %}
-                <img src="{{ post.media.url }}" alt="Post Media" style="max-width: 100%; height: auto;">
-            {% endif %}
+            <p>Upvotes: {{ post.upvotes }}</p>
+            <p>Downvotes: {{ post.downvotes }}</p>
+            
         </div>
     {% endfor %}
 {% endblock %}

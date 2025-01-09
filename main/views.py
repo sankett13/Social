@@ -312,9 +312,10 @@ def search_suggestions(request):
 
 def trending(request):
     if request.session.get('username'): 
-        trending_posts = Post.objects.order_by('-upvotes')[:1]
+        trending_posts = Post.objects.order_by('-upvotes')[:2]
+        print(trending_posts)
 
-        return render(request, 'index.html', {'posts': trending_posts, 'username': request.session['username']})
+        return render(request, 'trending.html', {'posts': trending_posts, 'username': request.session['username']})
     else:
         return redirect('login')
 
@@ -438,9 +439,17 @@ def remove_bookmark(request, bookmark_id):
 def user_profile(request):
     # if not request.sesssion.get('username'):
     #     return redirect('login')
+
     user = User.objects.get(username=request.session['username'])
     #trim only date and time
     joined_at = user.joined_at.strftime('%B %d, %Y')
     print(joined_at)
     user_posts = Post.objects.filter(author=user)
     return render(request, 'user_profile.html', {'user': user, 'joined_at': joined_at, 'user_posts': user_posts, 'username': request.session['username']})
+
+def delete_post(request, post_id):
+    if not request.session.get('username'):
+        return redirect('login')
+    post = Post.objects.get(id=post_id)
+    post.delete()
+    return JsonResponse({'success': True, 'message': 'Post deleted successfully'})
