@@ -22,11 +22,12 @@ h4 {
 }
 
 .posts-container{
-  width: 70%;
+  width: 65%;
+  margin-top: -20px;
 }
 .card {
   position: relative;
-  width: 63%;
+ 
   padding: 20px;
   margin: 20px 55px;
   background: #ffffff;
@@ -122,9 +123,19 @@ button {
 }
 
 .guidelines{
+  padding: 20px 40px;
   display: flex;
-  width: 30%;
-  height: auto;
+  width: 35%;
+  margin-right:55px;
+  height: 370px;
+  border-radius: 15px;
+
   flex-direction: row;
   background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+} 
+
+.guide-content{
+  flex-direction: column;
 }
