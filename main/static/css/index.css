@@ -21,7 +21,9 @@ h4 {
   right: 10px;
 }
 
-
+.posts-container{
+  width: 70%;
+}
 .card {
   position: relative;
   width: 63%;
@@ -117,4 +119,12 @@ button {
 .fa-thumbs-up ,.fa-thumbs-down{
   font-size: 20px;
   margin-right: 8px;
+}
+
+.guidelines{
+  display: flex;
+  width: 30%;
+  height: auto;
+  flex-direction: row;
+  background-color: #ffffff;
 }

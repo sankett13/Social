@@ -6,6 +6,7 @@
 
 {% block content %}
 <h4>All Posts</h4>
+<div style="display: flex; flex-direction: row;">
 <div class="posts-container">
   {% for post in posts %}
   <div class="card">
@@ -56,7 +57,19 @@
   <p>No posts available.</p>
   {% endfor %}
 </div>
-
+<div class="guidelines">
+  <p><b>User Guidelines
+    <br>
+    Use this app responsibly:
+  </b>
+    Respect others; avoid hate speech or offensive content.
+    Maintain privacy; don't share personal info.
+    No harassment, bullying, or spamming.
+    Use anonymity ethically; don’t spread false information or harm others.
+    Advantages
+    Express freely, seek advice, and connect with like-minded people while staying anonymous. Enjoy a safe space for honest feedback, creativity, and supportive discussions.</p>
+</div>
+</div>
 <!-- JavaScript -->
 <script>
   // Function to get CSRF token from cookies
