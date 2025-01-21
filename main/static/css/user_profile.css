@@ -49,12 +49,10 @@
 }
 
 .profile-posts .posttext{
-    font-size: 1em;
+    font-size: 1.3em;
     font-weight: 600;
-    padding: 10px;
-    background-color: rgb(219, 219, 219);
-    margin-bottom: 40px;
-    border-radius: 30px;
+
+
     color: black;
 }
 
@@ -62,7 +60,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
-    margin-top: 30px;
+    margin-top: 20px;
     list-style: none;
     padding: 0;
 }

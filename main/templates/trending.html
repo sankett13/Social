@@ -1,17 +1,35 @@
 {% extends "base.html" %}
 
 {% block title %}Trending{% endblock %}
-
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/trending.css' %}">
+{% endblock %}
 {% block content %}
-    <h2 style="margin-bottom: 20px;">Trending Posts</h2>
+    <h4>Trending Posts</h4>
+    <div class="posts-container">
+
     {% for post in posts %}
-        <div>
-            <h3><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h3>
+        <div class="card">
+            <div class="card-content">
+            <h3 class="card-title"><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h3>
             <p>{{ post.description }}</p>
-            <p>Upvotes: {{ post.upvotes }}</p>
-            <p>Downvotes: {{ post.downvotes }}</p>
-            
+            <div class="card-actions">
+                <button class="like-button" data-post-id="{{ post.id }}">
+                    <i class="fa-regular fa-thumbs-up"></i>
+                  Like (<span id="likes-count-{{ post.id }}">{{ post.upvotes }}</span>)
+                </button>
+                <button class="dislike-button" data-post-id="{{ post.id }}">
+                    <i class="fa-regular fa-thumbs-down"></i>
+                      Dislike (<span id="dislike-count-{{ post.id }}"
+                    >{{ post.downvotes }}</span
+                  >)
+                </button>
+              </div>
+            </div>
         </div>
     {% endfor %}
+
+    </div>
 {% endblock %}
 

@@ -22,14 +22,14 @@ h4 {
 }
 
 .posts-container{
-  width: 65%;
+  width: 70%;
   margin-top: -20px;
 }
 .card {
   position: relative;
  
   padding: 20px;
-  margin: 20px 55px;
+  margin: 20px 20px 20px 40px;
   background: #ffffff;
   border-radius: 15px;
   overflow: hidden;
@@ -47,7 +47,12 @@ h4 {
   display: flex;
   align-items: center;
   font-weight: bold;
-  color: #333;
+ 
+}
+
+.user-name a{
+  text-decoration: none;
+  color: #5046e5;
 }
 
 .card-content {
@@ -63,10 +68,6 @@ h4 {
   object-fit: cover;
 }
 
-.user-name {
-  font-weight: bold;
-  color: #333;
-}
 
 .card-title {
   font-size: 18px;
@@ -95,7 +96,7 @@ h4 {
 button {
   padding: 8px 12px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
   color: white;
@@ -125,11 +126,11 @@ button {
 .guidelines{
   padding: 20px 40px;
   display: flex;
-  width: 35%;
-  margin-right:55px;
+  width: 30%;
+  margin-right:40px;
   height: 370px;
   border-radius: 15px;
-
+  font-size: 15px;
   flex-direction: row;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

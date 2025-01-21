@@ -1,0 +1,72 @@
+.content{
+    margin-top: 100px;
+}
+h4 {
+    margin: 20px 55px;
+    color: var(--text-color);
+    font-weight: 400;
+  }
+.posts-container{
+  width: 70%;
+
+}
+.card {
+  position: relative;
+ 
+  padding: 20px;
+  margin: 20px 20px 20px 40px;
+  background: #ffffff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.card-content {
+    position: relative;
+    z-index: 1;
+  }
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .card-title a {
+    color: #333;
+    text-decoration: none;
+  }
+
+  .card-actions {
+    display: flex;
+    margin-top: 10px;
+  }
+  
+  button {
+    padding: 8px 12px;
+    border: none;
+
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+  }
+  
+  .like-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    background-color: #5046e5;
+  }
+  
+  .dislike-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    background-color: #dad8fcd3;
+    color: #5046e5;
+  }
+  .fa-thumbs-up ,.fa-thumbs-down{
+    font-size: 20px;
+    margin-right: 8px;
+  }
+  

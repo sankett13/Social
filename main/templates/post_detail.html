@@ -31,26 +31,35 @@
         <!-- Upvotes and Downvotes -->
         <div class="votes-container">
             <div id="likes-count-{{ post.id }}" class="votes-count">
-                👍 Upvotes: <strong>{{ post.upvotes }}</strong>
+                 Upvotes: <strong>{{ post.upvotes }}</strong>
             </div>
             <div id="dislikes-count-{{ post.id }}" class="votes-count">
-                👎 Downvotes: <strong>{{ post.downvotes }}</strong>
+                 Downvotes: <strong>{{ post.downvotes }}</strong>
             </div>
         </div>
 
         <!-- Like and Dislike Buttons -->
         <div class="votes-buttons">
             <button class="like-btn" data-post-id="{{ post.id }}">
-                👍 Like
+                 Like
             </button>
             <button class="dislike-btn" data-post-id="{{ post.id }}">
-                👎 Dislike
+                Dislike
             </button>
         </div>
     </div>
 
    <!-- Comments Section -->
 <div class="comments-section">
+        <!-- Comment Form -->
+        <h4>Add a comment</h4>
+        <form method="POST" class="comment-form" data-post-id="{{ post.id }}">
+            {% csrf_token %}
+            <textarea name="comment" rows="4" class="comment-textarea" placeholder="Write your comment..." required></textarea>
+            <button type="submit" class="comment-submit">
+                Post Comment
+            </button>
+        </form>
     <h3>Comments</h3>
 
     <!-- Existing comments container -->
@@ -82,15 +91,7 @@
         {% endfor %}
     </div>
 
-    <!-- Comment Form -->
-    <h4>Add a comment</h4>
-    <form method="POST" class="comment-form" data-post-id="{{ post.id }}">
-        {% csrf_token %}
-        <textarea name="comment" rows="4" class="comment-textarea" placeholder="Write your comment..." required></textarea>
-        <button type="submit" class="comment-submit">
-            Post Comment
-        </button>
-    </form>
+
 </div>
 
     <script>

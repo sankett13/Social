@@ -178,7 +178,7 @@
         background-color: var(--sidebar-bg);
         color: white;
         padding: 10px 20px;
-        border-radius: 20px;
+        border-radius: 10px;
         text-decoration: none;
         font-weight: bold;
         cursor: pointer;
@@ -194,7 +194,7 @@
         /* Red for logout */
         color: white;
         padding: 10px 20px;
-        border-radius: 20px;
+        border-radius: 10px;
         font-size: 16px;
         text-decoration: none;
         font-weight: bold;
@@ -297,39 +297,20 @@
     .close:hover {
         color: black;
     }
-
-    Style the container for suggestions
     #suggestions-list {
-        position: absolute;
-        /* To ensure it appears below the input field */
-        background-color: #fff;
-        /* White background for suggestions */
+        background-color: lightyellow;
         border: 1px solid #ccc;
-        /* Light border */
-        width: 100%;
-        /* Full width of the input field */
-        max-height: 200px;
-        /* Limit height for overflow */
-        overflow-y: auto;
-        /* Add scroll for overflow */
+        position: absolute;
+        top: 40px; /* Adjust as needed */
+        left: 0;
         z-index: 1000;
-        /* Ensure it appears above other elements */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* Optional shadow for better visibility */
+        display: block !important;
     }
-
-    /* Style individual suggestion items */
+    
     .suggestion {
-        padding: 10px;
-        /* Add some padding for better spacing */
+        width: 350px;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
         cursor: pointer;
-        /* Indicate clickable items */
-        border-bottom: 1px solid #eee;
-        /* Separate each suggestion */
     }
-
-    /* Highlight on hover */
-    .suggestion:hover {
-        background-color: #f0f0f0;
-        /* Light gray hover effect */
-    }
+    

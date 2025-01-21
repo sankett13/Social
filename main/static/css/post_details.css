@@ -1,5 +1,7 @@
 /* post_detail.css */
-
+.content{
+    margin-top: 100px;
+}
 .post-detail-container {
     margin: 20px auto;
     max-width: 800px;

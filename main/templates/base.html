@@ -184,43 +184,43 @@
     <script>
       // Search functionality
       // Search functionality
-      document
-        .querySelector(".search-bar")
-        .addEventListener("input", function () {
-          const query = this.value;
-          const suggestionsList = document.getElementById("suggestions-list");
+      document.querySelector(".search-bar").addEventListener("input", function () {
+        const suggestionsList = document.querySelector("#suggestions-list"); // Update this if necessary
+        const query = this.value.trim();
+  if (query.length > 0) {
+    console.log("Fetching suggestions for query:", query);
+    fetch(`/search_suggestions/?q=${query}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Received data:", data);
+        suggestionsList.innerHTML = ""; // Clear previous suggestions
 
-          if (query.length > 2) {
-            fetch(`/search_suggestions/?q=${query}`)
-              .then((response) => response.json())
-              .then((data) => {
-                console.log(data);
-                suggestionsList.innerHTML = ""; // Clear previous suggestions
+        if (data.suggestions && Array.isArray(data.suggestions)) {
+          data.suggestions.forEach((suggestion) => {
+            const suggestionElement = document.createElement("div");
+            suggestionElement.textContent = suggestion.title;
+            suggestionElement.classList.add("suggestion");
 
-                if (data.suggestions && Array.isArray(data.suggestions)) {
-                  data.suggestions.forEach((suggestion) => {
-                    const suggestionElement = document.createElement("div");
-                    suggestionElement.textContent = suggestion.title;
-                    suggestionElement.classList.add("suggestion");
+            suggestionElement.addEventListener("click", () => {
+              window.location.href = `/post/${suggestion.id}/`;
+            });
 
-                    // Add click event to navigate to the post
-                    suggestionElement.addEventListener("click", () => {
-                      window.location.href = `/post/${suggestion.id}/`;
-                    });
+            suggestionsList.appendChild(suggestionElement);
+          });
 
-                    suggestionsList.appendChild(suggestionElement);
-                  });
-                } else {
-                  console.error("Invalid suggestions data:", data.suggestions);
-                }
-              })
-              .catch((error) =>
-                console.error("Error fetching suggestions:", error)
-              );
-          } else {
-            suggestionsList.innerHTML = ""; // Clear suggestions if input is less than 3 characters
-          }
-        });
+          console.log("Updated suggestions list:", suggestionsList.innerHTML);
+        } else {
+          console.warn("No suggestions found.");
+        }
+      })
+      .catch((error) => console.error("Error fetching suggestions:", error));
+  } else {
+    console.log("Input too short, clearing suggestions.");
+    suggestionsList.innerHTML = "";
+  }
+});
+
+
 
       // Login Popup Modal
       const loginButton = document.getElementById("loginButton");

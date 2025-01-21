@@ -1,6 +1,7 @@
 .content{
     margin-top: 100px;
 }
+
 .titlebox{
     box-shadow: 0 4px 8px rgba(59, 59, 59, 0.091);
      height: 60px;
@@ -19,8 +20,8 @@ button{
     color: white;
     font-size: 16px;
     padding: 7px 27px;
-    border-radius: 20px;
-    margin-right: 18px;
+    border-radius: 10px;
+    margin-right: 10px;
     margin-top: 20px;
     text-decoration: none;
     font-weight: bold;
@@ -36,7 +37,7 @@ button{
     background-color: rgb(103, 103, 103);
     color: white;
     padding: 7px 27px;
-    border-radius: 20px;
+    border-radius: 10px;
     text-decoration: none;
     font-weight: bold;
     cursor: pointer;
@@ -49,8 +50,8 @@ button{
 .container {
     margin-top: 10px;
    
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 40px;
+    margin-right: 40px;
     padding: 40px;
    
 }
