@@ -2,16 +2,15 @@
 .content{
   margin-top: 100px;
 }
+
 h4 {
   margin: 20px 55px;
   color: var(--text-color);
   font-weight: 400;
 }
 
-
-
 .bookmark-btn {
-  color: rgb(33, 10, 60);
+  color: var(--secondary-text-color);
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
@@ -19,18 +18,19 @@ h4 {
   position: absolute;
   top: 10px;
   right: 10px;
+  background-color: var(--bg-color);
 }
 
 .posts-container{
   width: 70%;
   margin-top: -20px;
 }
+
 .card {
   position: relative;
- 
   padding: 20px;
   margin: 20px 20px 20px 40px;
-  background: #ffffff;
+  background-color: var(--post-color);
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -41,18 +41,16 @@ h4 {
   flex-direction: row;
 }
 
-
 .user-name {
   margin-left:10px;
   display: flex;
   align-items: center;
   font-weight: bold;
- 
 }
 
 .user-name a{
   text-decoration: none;
-  color: #5046e5;
+  color: var(--text-color);
 }
 
 .card-content {
@@ -60,14 +58,12 @@ h4 {
   z-index: 1;
 }
 
-
 .user-profile {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
 }
-
 
 .card-title {
   font-size: 18px;
@@ -77,18 +73,84 @@ h4 {
 
 .card-description {
   font-size: 14px;
-  color: #555;
+  color: var(--secondary-text-color);
   margin-bottom: 15px;
 }
 
-.card-image {
-  width: 400px;
-  height: 300px;
-  border-radius: 10px;
-  margin-bottom: 15px;
+.post-media-container {
+  position: relative;
+  width: 600px; /* Your desired width */
+  padding-bottom: 75%; /* 4:3 aspect ratio (height/width * 100) */
+  overflow: hidden;
+  display: inline-block; /* Ensure overlay covers correctly */
+}
+
+.post-media-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+/* 
+.post-media-container[data-sensitive="true"] img {
+  filter: blur(4px);
+} */
+
+.post-media-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: inherit; /* Inherit the image from the main img element */
+  background-size: cover;
+  filter: blur(20px); /* Adjust blur intensity as needed */
+  z-index: -1; /* Place the blurred background behind the image */
+}
+
+.sensitive-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--overlay-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #f8f8f8;
+  border-radius: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+.sensitive-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.show-content-button {
+  padding: 10px 20px;
+  background-color: #202020;
+  color: #f8f8f8;
+  border: none;
+  cursor: pointer;
+}
+
+.post-media-container:not([data-sensitive="true"]) .sensitive-overlay {
+  display: none;
 }
 
 .card-actions {
+  margin-top: 10px;
   display: flex;
   gap: 10px;
 }
@@ -99,25 +161,24 @@ button {
   border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
-  color: white;
+  color: #f8f8f8;
 }
 
 .like-button {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background-color: #5046e5;
+  background-color: var(--cta-color);
 }
 
 .dislike-button {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background-color: #dad8fcd3;
-  color: #5046e5;
+  background-color: #ebeafde8;
+  color: var(--cta-color);
 }
+
 .fa-thumbs-up ,.fa-thumbs-down{
   font-size: 20px;
   margin-right: 8px;
@@ -128,15 +189,15 @@ button {
   display: flex;
   width: 30%;
   margin-right:40px;
-  height: 370px;
+  height: 330px;
   border-radius: 15px;
   font-size: 15px;
   flex-direction: row;
-  background-color: #ffffff;
+  background-color: var(--post-color);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
 } 
 
 .guide-content{
   flex-direction: column;
+  color: var(--text-color);
 }

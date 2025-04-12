@@ -1,25 +1,107 @@
 {%load socialaccount%}
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap"
+  />
     <title>Register</title>
+
+    <style>
+        body, html {
+          font-family: poppins;
+            height: 100vh;
+
+        }
+        
+        body {
+            background-image: url("{% static 'media/social.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            display: flex; /* Add flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        .container {
+            width: 350px; /* Slightly wider */
+            height: 420px;
+            background-color: rgba(221, 221, 221, 0.9); /* Add slight transparency */
+            padding: 40px; /* Adjust padding */
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(59, 59, 59, 0.2); /* Enhance shadow */
+            text-align: center; /* Center content */
+            align-items: center;
+            justify-content: center;
+        }
+   
+        .container a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f4f4f4; /* Google blue */
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+        }
+    
+        .container span {
+            display: block;
+            margin: 10px 0;
+            color: #333;
+        }
+        .container label {
+            display: block;
+            margin-top: 15px;
+            color: #333;
+            text-align: left; /* Align label to left */
+        }
+        .container input[type="email"] {
+            width: calc(100% - 22px); /* Adjust width */
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #5046e5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 30px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .container .captcha {
+            margin-top: 15px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
-    <h1>Register</h1>
-    <form method="POST" action="{% url 'register' %}">
-        {% csrf_token %}
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email">
-        <br>
-        {{captchaForm.captcha}}
-        <br>
-        <button type="submit">Register</button>
-        <a href="{% provider_login_url 'google' %}?next=/oauth_Verification/"">Signup with Google</a>
-        
-
-    </form>
-    
+    <div class="container">
+        <h2>Create your account</h2>
+        <form method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+            <a href="{% provider_login_url 'google' %}?next=/oauth_Verification/"><i class="fa-brands fa-google"></i> &nbsp;Continue with Google</a>
+            <span>OR</span>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <div class="captcha">
+                {{captchaForm.captcha}}
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </div>
 </body>
 </html>

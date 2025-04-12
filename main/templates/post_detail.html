@@ -29,72 +29,63 @@
         </p>
 
         <!-- Upvotes and Downvotes -->
-        <div class="votes-container">
+        <!-- <div class="votes-container">
             <div id="likes-count-{{ post.id }}" class="votes-count">
                  Upvotes: <strong>{{ post.upvotes }}</strong>
             </div>
             <div id="dislikes-count-{{ post.id }}" class="votes-count">
                  Downvotes: <strong>{{ post.downvotes }}</strong>
             </div>
-        </div>
+        </div> -->
 
         <!-- Like and Dislike Buttons -->
         <div class="votes-buttons">
             <button class="like-btn" data-post-id="{{ post.id }}">
-                 Like
+                 Like <strong>{{ post.upvotes }}</strong>
             </button>
             <button class="dislike-btn" data-post-id="{{ post.id }}">
-                Dislike
+                Dislike <strong>{{ post.downvotes }}</strong>
             </button>
         </div>
     </div>
 
-   <!-- Comments Section -->
-<div class="comments-section">
-        <!-- Comment Form -->
+    <div class="comments-section">
         <h4>Add a comment</h4>
         <form method="POST" class="comment-form" data-post-id="{{ post.id }}">
             {% csrf_token %}
             <textarea name="comment" rows="4" class="comment-textarea" placeholder="Write your comment..." required></textarea>
-            <button type="submit" class="comment-submit">
-                Post Comment
-            </button>
-        </form>
-    <h3>Comments</h3>
-
-    <!-- Existing comments container -->
-    <div class="comments-container">
-        {% for comment in post.comments.all %}
-            <div class="comment">
-                <strong>{{ comment.author.username }}</strong>
-                <p class="comment-date">{{ comment.created_at|date:"F j, Y" }}</p>
-                <p>{{ comment.content }}</p>
-                <div id="comment-{{ comment.id }}">
-
-                    <!-- agree and disagree Buttons -->
-                    <div class="comment-votes">
-                        <p id="agree-count-{{ comment.id }}">Agree: {{ comment.agreeCount }}</p>
-                        <button class="agree-btn" data-comment-id="{{ comment.id }}">
-                            🔼 Agree
-                        </button>
-                        <p id="disagree-count-{{ comment.id }}">Disagree: {{ comment.disagreeCount }}</p>
-                        <button class="disagree-btn" data-comment-id="{{ comment.id }}">
-                            🔽 Disagree
-                        </button>
-                    </div>
-
-                </div>
-
+            <div class="comment-submit-container">
+                <button type="button" class="comment-cancel">Cancel</button>
+                <button type="submit" class="comment-submit">Comment</button>
             </div>
-        {% empty %}
-            <p>No comments yet. Be the first to comment!</p>
-        {% endfor %}
+        </form>
+        <h3>Comments</h3>
+        <div class="comments-container">
+            {% for comment in post.comments.all %}
+                <div class="comment">
+                    <strong>{{ comment.author.username }}</strong>
+                    <p class="comment-date">{{ comment.created_at|date:"F j, Y" }}</p>
+                    <p>{{ comment.content }}</p>
+                    <div class="comment-votes">
+                        <p id="agree-count-{{ comment.id }}">{{ comment.agreeCount }}</p>
+                        <button class="agree-btn" data-comment-id="{{ comment.id }}">Agree</button>
+                        &nbsp;&nbsp;&nbsp;
+                        <button class="disagree-btn" data-comment-id="{{ comment.id }}">Disagree</button>
+                        &nbsp;&nbsp;
+                        <p id="disagree-count-{{ comment.id }}">{{ comment.disagreeCount }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No comments yet. Be the first to comment!</p>
+            {% endfor %}
+        </div>
     </div>
-
-
-</div>
-
     <script>
+        // Add event listener for Cancel button
+document.querySelector('.comment-cancel').addEventListener('click', function() {
+    const commentInput = document.querySelector('textarea[name="comment"]');
+    commentInput.value = ''; // Clear the textarea
+});
 // AJAX for Like Button
 document.querySelector('.like-btn').addEventListener('click', function () {
     const postId = this.getAttribute('data-post-id');
@@ -209,8 +200,8 @@ document.querySelectorAll('.agree-btn').forEach(button => {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                agreeCountSpan.innerHTML = `Agree: <strong>${data.agree}</strong>`;
-                disagreeCountSpan.innerHTML = `Disagree: <strong>${data.disagree}</strong>`;
+                agreeCountSpan.innerHTML = `<strong>${data.agree}</strong>`;
+                disagreeCountSpan.innerHTML = `<strong>${data.disagree}</strong>`;
             } else {
                 alert(data.error || 'Failed to agree to the comment.');
             }
@@ -235,8 +226,8 @@ document.querySelectorAll('.disagree-btn').forEach(button => {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                agreeCountSpan.innerHTML = `Agree: <strong>${data.agree}</strong>`;
-                disagreeCountSpan.innerHTML = `Disagree: <strong>${data.disagree}</strong>`;
+                agreeCountSpan.innerHTML = `<strong>${data.agree}</strong>`;
+                disagreeCountSpan.innerHTML = `<strong>${data.disagree}</strong>`;
 
             } else {
                 alert(data.error || 'Failed to disagree to the comment.');

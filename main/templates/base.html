@@ -109,7 +109,7 @@
       <!-- Top Navbar -->
       <div class="top-nav">
         <div class="search-container">
-          <i class="fa-solid fa-magnifying-glass"></i>
+          <img src="{% static 'media/search2.svg' %}" alt="Search Icon" class="search-icon" />
           <input type="text" class="search-bar" placeholder="Search" />
           <div id="suggestions-list"></div>
         </div>
@@ -172,12 +172,12 @@
           />
           <button type="submit" class="submit-btn">Login</button>
         </form>
-        <form action="{% url 'register' %}">
-          <label for="register">New User?</label>
-          <button type="submit" class="submit-btn" id="register">
+        <div style="display: flex;">
+         <span>New User?</span> 
+          <a href="{% url 'register' %}" type="submit" class="register-btn" id="register">
             Register
-          </button>
-        </form>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -202,21 +202,23 @@
             suggestionElement.classList.add("suggestion");
 
             suggestionElement.addEventListener("click", () => {
-              window.location.href = `/post/${suggestion.id}/`;
+              window.location.href = `/post_detail/${suggestion.id}/`;
             });
 
             suggestionsList.appendChild(suggestionElement);
           });
-
           console.log("Updated suggestions list:", suggestionsList.innerHTML);
+          suggestionsList.style.display = "block"; 
         } else {
           console.warn("No suggestions found.");
+          suggestionsList.style.display = "none";
         }
       })
       .catch((error) => console.error("Error fetching suggestions:", error));
   } else {
     console.log("Input too short, clearing suggestions.");
     suggestionsList.innerHTML = "";
+    suggestionsList.style.display = "none";
   }
 });
 

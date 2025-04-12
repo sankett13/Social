@@ -48,11 +48,13 @@ def index(request):
         #latest first
 
         posts = Post.objects.all().order_by('-created_at')
+        bookmarks_post = Bookmark.objects.filter(user=User.objects.get(username=username))
+        print(bookmarks_post)
     else:
         posts = Post.objects.values('id', 'title', 'description', 'upvotes', 'downvotes', 'created_at').order_by('-created_at')
         
 
-    return render(request, 'index.html', {'posts': posts, 'username': username})
+    return render(request, 'index.html', {'posts': posts, 'username': username, 'bookmarks_post': bookmarks_post})
 
 
 @csrf_exempt
@@ -306,11 +308,11 @@ def search_suggestions(request):
     query = request.GET.get('q', '')
     if not query:
         return JsonResponse({'suggestions': []})
-    suggestions = Post.objects.filter(title__icontains=query).values_list('id', 'title')
-    print(suggestions)
+
+    suggestions = Post.objects.filter(title__icontains=query).values('id', 'title')
+    print(suggestions)  # For debugging
+
     return JsonResponse({'suggestions': list(suggestions)})
-
-
 def trending(request):
     if request.session.get('username'): 
         trending_posts = Post.objects.order_by('-upvotes')[:2]

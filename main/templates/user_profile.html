@@ -28,13 +28,13 @@
                     <li id="post-{{ post.id }}">
                         <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
                         <p>Posted on: {{ post.created_at|date:"F d, Y H:i" }}</p>
-                        <button type="submit" class="delete-button" onclick="handleDeletePost('{{ post.id }}')">Delete post</button>
+                        <button type="submit" class="delete" onclick="handleDeletePost('{{ post.id }}')">Delete</button>
                     </li>
                     
                 {% endfor %}
             </ul>
         {% else %}
-            <p>No posts yet.</p>
+            <p style="color: var(--text-color);">No posts yet.</p>
         {% endif %}
     </div>
 </div>
