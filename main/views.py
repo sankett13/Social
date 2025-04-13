@@ -54,7 +54,7 @@ def index(request):
         posts = Post.objects.values('id', 'title', 'description', 'upvotes', 'downvotes', 'created_at').order_by('-created_at')
         
 
-    return render(request, 'index.html', {'posts': posts, 'username': username, 'bookmarks_post': bookmarks_post})
+    return render(request, 'index.html', {'posts': posts, 'username': username})
 
 
 @csrf_exempt

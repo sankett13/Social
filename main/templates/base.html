@@ -184,9 +184,9 @@
     <script>
       // Search functionality
       // Search functionality
-      document.querySelector(".search-bar").addEventListener("input", function () {
-        const suggestionsList = document.querySelector("#suggestions-list"); // Update this if necessary
-        const query = this.value.trim();
+  document.querySelector(".search-bar").addEventListener("input", function () {
+  const suggestionsList = document.querySelector("#suggestions-list"); // Update this if necessary
+  const query = this.value.trim();
   if (query.length > 0) {
     console.log("Fetching suggestions for query:", query);
     fetch(`/search_suggestions/?q=${query}`)
@@ -198,11 +198,11 @@
         if (data.suggestions && Array.isArray(data.suggestions)) {
           data.suggestions.forEach((suggestion) => {
             const suggestionElement = document.createElement("div");
-            suggestionElement.textContent = suggestion.title;
+            suggestionElement.textContent = suggestion[1];
             suggestionElement.classList.add("suggestion");
 
             suggestionElement.addEventListener("click", () => {
-              window.location.href = `/post_detail/${suggestion.id}/`;
+              window.location.href = `/post/${suggestion.id}/`;
             });
 
             suggestionsList.appendChild(suggestionElement);
