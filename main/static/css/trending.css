@@ -15,7 +15,7 @@ h4 {
  
   padding: 20px;
   margin: 20px 20px 20px 40px;
-  background: #ffffff;
+  background: var(--post-color);
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -30,10 +30,14 @@ h4 {
     margin-bottom: 10px;
   }
   .card-title a {
-    color: #333;
+    color: var(--text-color);
     text-decoration: none;
   }
-
+.card-description{
+  font-size: 14px;
+  color: var(--secondary-text-color);
+  margin-bottom: 15px;
+}
   .card-actions {
     display: flex;
     margin-top: 10px;
@@ -46,7 +50,7 @@ h4 {
     border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
-    color: white;
+    color: #f8f8f8;
   }
   
   .like-button {
@@ -54,16 +58,15 @@ h4 {
     align-items: center;
     justify-content: center;
     margin-right: 10px;
-    background-color: #5046e5;
+    background-color: var(--cta-color);
   }
   
   .dislike-button {
     display: flex;
     align-items: center;
     justify-content: center;
-  
-    background-color: #dad8fcd3;
-    color: #5046e5;
+    background-color: #ebeafde8;
+    color: var(--cta-color);
   }
   .fa-thumbs-up ,.fa-thumbs-down{
     font-size: 20px;

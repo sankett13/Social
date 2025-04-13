@@ -13,31 +13,32 @@
     }
 
     :root {
-        --bg-color: #ffffff;
-        --secondary-bg-color: #f8f8f8;
-        --text-color: #000000;
-        --secondary-text-color: #7b7b7b;
+        --bg-color: #f8f8f8;
         --sidebar-bg: #5046e5;
-        --button-bg: #746bf9d3;
-        --secondary-button-bg: rgb(103, 103, 103);
+        --createpost-bg: #746bf9d3;
+        --post-color:#ffffff;
+        --text-color: #212323;
+        --secondary-text-color: #6b6b6b;
+        --line-color: #bab8bb;
+        --cta-color:#5046e5;
+        --overlay-color: rgba(47, 47, 47, 0.89);
         --accent-color: #e74c3c;
-        --button-text: #ffffff;
-        --button-border: #afaafd;
-        --input-border: #b7b7b7;
+        
     }
 
     .darkmode {
-        --bg-color: #303030;
-        --secondary-bg-color: #181818;
-        --text-color: #ffffff;
-        --secondary-text-color: #474f51;
-        --sidebar-bg: #080808;
-        --button-bg: #272727;
-        --secondary-button-bg: rgb(103, 103, 103);
-        --accent-color: #e74c3c;
-        --button-text: #ffffff;
-        --button-border: #717171;
-        --input-border: #717171;
+        --bg-color: #1e2022;
+        --sidebar-bg: #0f0f0f;
+        --createpost-bg: #272727;
+        --post-color:#2b2f31;
+        --text-color: #f9f6ff;
+        --secondary-text-color: #b5b5b5;
+        --line-color: #535455;
+        --cta-color:#5f56db;
+        --overlay-color: rgba(8, 8, 8, 0.897);
+
+        --accent-color: #db5748;
+ 
     }
 
     body {
@@ -52,7 +53,7 @@
     /* Sidebar */
     .sidebar {
         background-color: var(--sidebar-bg);
-        color: white;
+        color: #f8f8f8;
         width: 18%;
         padding: 25px;
         display: flex;
@@ -92,16 +93,16 @@
         align-items: center;
         padding: 8px 35px;
         margin-bottom: 20px;
-        background-color: var(--button-bg);
+        background-color: var(--createpost-bg);
         border-radius: 30px;
         font-size: 20px;
         font-weight: 500;
-        border: 1px solid var(--button-border);
+        border: 1px solid var(--line-color);
     }
 
     /* Main Section (content area) */
     .main {
-        background-color: var(--secondary-bg-color);
+        background-color: var(--bg-color);
         margin-left: 18%;
         /* Ensure main content is not hidden behind sidebar */
         width: 82%;
@@ -118,8 +119,8 @@
         align-items: center;
         padding: 10px;
         width: 82%;
-        background-color: var(--secondary-bg-color);
-        border-bottom: 1px solid var(--input-border);
+        background-color: var(--bg-color);
+        border-bottom: 0.7px solid var(--line-color);
         position: fixed;
         z-index: 2;
     }
@@ -130,7 +131,7 @@
         display: flex;
         align-items: center;
         padding: 0px 15px;
-        border: 1px solid var(--input-border);
+        border: 0.7px solid var(--line-color);
         border-radius: 30px;
         margin-left: 30px;
         width: 40%;
@@ -139,20 +140,14 @@
         box-shadow: 0 4px 10px rgba(59, 59, 59, 0.12);
     }
 
-    .search-container i {
-        cursor: pointer;
-        margin-right: 13px;
-        font-size: 20px;
-        color: var(--secondary-text-color);
-    }
-
+    
     .search-bar {
         border: none;
         outline: none;
         padding: 8px;
         background-color: transparent;
         font-size: 18px;
-        color: var(--text-color);
+        color: var(--secondary-text-color);
     }
 
     .profile-picture {
@@ -175,8 +170,8 @@
     }
 
     .login-btn {
-        background-color: var(--sidebar-bg);
-        color: white;
+        background-color: var(--cta-color);
+        color: #f8f8f8;
         padding: 10px 20px;
         border-radius: 10px;
         text-decoration: none;
@@ -192,7 +187,7 @@
     .logout-btn {
         background-color: var(--accent-color);
         /* Red for logout */
-        color: white;
+        color: #f8f8f8;
         padding: 10px 20px;
         border-radius: 10px;
         font-size: 16px;
@@ -204,10 +199,7 @@
         /* Space between login and logout buttons */
     }
 
-    .logout-btn:hover {
-        background-color: #c0392b;
-        /* Darker red on hover */
-    }
+
     .login_end{
         display: flex;
         align-items: center;
@@ -217,10 +209,10 @@
     #theme-toggle{
         height: 50px;
         width: 50px;
-        color: #000000;
+        color: var(--secondary-text-color);
         border-radius: 50%;
-        border: 1px solid #3a3a3a;
-        background-color: #ffffff;
+        border: 1px solid var(--line-color);
+        background-color: var(--bg-color);
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -240,13 +232,13 @@
     .modal {
         display: none;
         position: fixed;
-        z-index: 2;
+        z-index: 3;
         left: 0;
         top: 0;
         width: 100%;
         height: 100%;
         overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.6);
         justify-content: center;
         align-items: center;
     }
@@ -261,6 +253,7 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
+        z-index: 4;
         
     }
 
@@ -277,20 +270,26 @@
     }
 
     .submit-btn {
-        background-color: var(--sidebar-bg);
-        color: white;
+        width: 100%;
+        background-color: var(--cta-color);
+        color: #f8f8f8;
         border: none;
+        margin-top: 10px;
         padding: 10px;
         border-radius: 5px;
         cursor: pointer;
     }
-
+.register-btn{
+    text-decoration: underline;
+    color: #5046e5;
+    margin-left: 5px;
+}
     .close {
         position: absolute;
         top: 10px;
         right: 15px;
         font-size: 1.5rem;
-        color: #aaa;
+        color: var(--secondary-text-color);
         cursor: pointer;
     }
 
@@ -298,19 +297,21 @@
         color: black;
     }
     #suggestions-list {
-        background-color: lightyellow;
-        border: 1px solid #ccc;
+        background-color: var(--bg-color);
+        border: 1px solid var(--line-color);
+        border-radius: 15px;
         position: absolute;
-        top: 40px; /* Adjust as needed */
+        top: 45px; /* Adjust as needed */
         left: 0;
         z-index: 1000;
-        display: block !important;
+        display: none;
+        width: 100%; /* Make suggestions list same width as container */
     }
     
     .suggestion {
-        width: 350px;
+        width: 100%; /* Make each suggestion span full width */
         padding: 8px;
-        border-bottom: 1px solid #ddd;
         cursor: pointer;
+        color: var(--secondary-text-color);
+
     }
-    

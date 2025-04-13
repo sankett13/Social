@@ -29,15 +29,31 @@
         
 
       <h3 class="card-title">
-        <a href="{% url 'post_detail' post.id %}" style="text-decoration: none; color: black;">{{ post.title }}</a>
+        <a href="{% url 'post_detail' post.id %}" style="text-decoration: none; color: var(--text-color);">{{ post.title }}</a>
       </h3>
       <p class="card-description">{{ post.description }}</p>
-      <p>{{post.sensitive_content}}</p>
+      <!-- <p>{{post.sensitive_content}}</p> -->
       {% if post.media %}
-      <img src="{{ post.media.url }}" alt="Post Media" class="card-image" />
+      <div class="post-media-container" {% if post.sensitive_content %}data-sensitive="true"{% endif %}>
+        <img src="{{ post.media.url }}" alt="Post Media" class="card-image" />
+        <div class="sensitive-overlay">
+          <div class="sensitive-message">
+         <i class="fa-regular fa-eye-slash" style="margin-bottom: 30px; font-size: 40px;"></i>
+           <h3 style="margin-bottom: 10px; "> Content warning: Sensitive content</h3>
+            <h5 style="font-weight: 400; text-align: center;  padding-left: 40px;
+  padding-right:40px;">The author flagged this post as showing sensitive content.</h5>
+          </div>
+          <button class="show-content-button" data-post-id="{{ post.id }}">Show Content</button>
+        </div>
+      </div>
       {% endif %}
       <button class="bookmark-btn" data-post-id="{{ post.id }}">
-        <i class="fas fa-bookmark"></i>
+        <!-- <i id="bookmark-icon" class="fa-regular fa-bookmark"></i> -->
+         {% if bookmarks_post.post %}
+        <i class="fa-solid fa-bookmark"></i>
+        {% else %}
+        <i class="fa-regular fa-bookmark"></i>
+        {% endif %}
       </button>
       <div class="card-actions">
         <button class="like-button" data-post-id="{{ post.id }}">
@@ -59,22 +75,24 @@
 </div>
 <div class="guidelines">
   <div class="guide-content">
-    <b>User Guidelines</b>
-   <br>
-   <ul>
-    <li>Be respectful to others.</li>
-    <li>Maintain privacy, don't share personal info.</li>
-    <li>Don't spam or harass others.</li>
-    <li>Use anonymity ethically; don't spread false information or harm others.</li>
-   </ul>
+    <h3 style="margin-bottom: 15px;">Quick Guidelines</h3>
+    
+    <ul>
+      <li><b>Be Kind:</b> Treat everyone with respect.</li>
+ 
+      <li><b>No Spam:</b> Don't harass or flood the feed.</li>
+      <li><b>Use Wisely:</b> Share responsibly, don't mislead.</li>
+    </ul>
     <br>
-    Advantages
-    Express freely, seek advice, and connect with like-minded people while staying anonymous. Enjoy a safe space for honest feedback, creativity, and supportive discussions.
+    <b>Why Post Here?</b>
+    <br>
+    Share freely, get advice, and connect with others anonymously. It's a safe space for honest talks and new ideas.
   </div>
 </div>
 </div>
 <!-- JavaScript -->
 <script>
+
   // Function to get CSRF token from cookies
   function getCookie(name) {
     const cookies = document.cookie.split(";");
@@ -146,29 +164,40 @@
         .catch((error) => console.error("Error:", error));
     });
   });
-
   document.querySelectorAll(".bookmark-btn").forEach((button) => {
     button.addEventListener("click", function () {
-      const postId = this.getAttribute("data-post-id");
-      console.log(postId);
+        const postId = this.getAttribute("data-post-id");
+        console.log(postId);
 
-      fetch(`/bookmarks_post/${postId}/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken"), // Include CSRF token
-        },
-      })
+        fetch(`/bookmarks_post/${postId}/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"), // Include CSRF token
+            },
+        })
         .then((response) => response.json())
         .then((data) => {
-          if (data.success) {
-            alert(data.message);
-          } else {
-            alert(data.error || "Failed to bookmark the post.");
-          }
+            if (data.success) {
+                alert(data.message);
+
+                // Toggle the icon classes here
+                this.querySelector('i').classList.toggle('fa-regular');
+                this.querySelector('i').classList.toggle('fa-solid');
+
+            } else {
+                alert(data.error || "Failed to bookmark the post.");
+            }
         })
         .catch((error) => console.error("Error:", error));
     });
+});
+   // Show Content button functionality (Sensitive Content)
+   document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("show-content-button")) {
+      const postMediaContainer = event.target.closest(".post-media-container");
+      postMediaContainer.removeAttribute("data-sensitive");
+    }
   });
 </script>
 {% endblock %}

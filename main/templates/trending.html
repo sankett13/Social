@@ -13,7 +13,7 @@
         <div class="card">
             <div class="card-content">
             <h3 class="card-title"><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h3>
-            <p>{{ post.description }}</p>
+            <p class="card-description">{{ post.description }}</p>
             <div class="card-actions">
                 <button class="like-button" data-post-id="{{ post.id }}">
                     <i class="fa-regular fa-thumbs-up"></i>
